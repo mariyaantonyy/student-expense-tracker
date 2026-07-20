@@ -82,3 +82,16 @@ h2{
 .expense-item p{
     margin:5px 0;
 }
+.deleteBtn{
+    background:red;
+    color:white;
+    border:none;
+    padding:8px 15px;
+    margin-top:10px;
+    cursor:pointer;
+    border-radius:5px;
+}
+
+.deleteBtn:hover{
+    background:darkred;
+}

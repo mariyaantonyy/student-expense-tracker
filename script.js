@@ -30,7 +30,23 @@ addBtn.addEventListener("click", function () {
 if (expenseList.innerHTML.trim() === "No expenses yet.") {
     expenseList.innerHTML = "";
 }
+expenseList.addEventListener("click", function (e) {
 
+    if (e.target.classList.contains("deleteBtn")) {
+
+        const expenseItem = e.target.parentElement;
+
+        const amountText = expenseItem.querySelector("h3").textContent;
+
+        const amountValue = Number(amountText.replace("₹", ""));
+
+        total -= amountValue;
+
+        totalExpense.textContent = "Total Expenses : ₹" + total;
+
+        expenseItem.remove();
+    }
+});
 expenseList.innerHTML += `
 <div class="expense-item">
 
@@ -41,6 +57,8 @@ expenseList.innerHTML += `
     <p><strong>Date:</strong> ${date.value}</p>
 
     <p><strong>Description:</strong> ${description.value}</p>
+
+    <button class="deleteBtn">Delete</button>
 
 </div>
 `;
