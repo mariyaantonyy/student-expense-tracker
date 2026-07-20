@@ -8,9 +8,56 @@
 </head>
 <body>
 
-    <h1>Student Expense Tracker</h1>
+    
+    <form >
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Expense Tracker</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    
+<h1>Student Expense Tracker</h1>
+<div class="container">
 
-    <script src="script.js"></script>
+    
+
+    <form>
+
+        <label for="amount">Amount</label>
+        <input type="number" id="amount" placeholder="Enter amount">
+
+        <label for="category">Category</label>
+        <select id="category">
+            <option>Food</option>
+            <option>Travel</option>
+            <option>Shopping</option>
+            <option>Books</option>
+            <option>Others</option>
+        </select>
+
+        <label for="date">Date</label>
+        <input type="date" id="date">
+
+        <label for="description">Description</label>
+        <input type="text" id="description" placeholder="Enter description">
+
+        <button type="button">Add Expense</button>
+
+    </form>
+
+    <h2>Total Expenses : ₹0</h2>
+
+    <div id="expense-list">
+        No expenses yet.
+    </div>
+
+</div>
+
+<script src="script.js"></script>
 
 </body>
 </html>
