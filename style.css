@@ -66,3 +66,19 @@ h2{
 #expense-list{
     margin-top:15px;
 }
+.expense-item{
+    background:#f7f7f7;
+    padding:15px;
+    margin-top:15px;
+    border-left:5px solid #0077ff;
+    border-radius:8px;
+}
+
+.expense-item h3{
+    color:#0077ff;
+    margin-bottom:10px;
+}
+
+.expense-item p{
+    margin:5px 0;
+}
