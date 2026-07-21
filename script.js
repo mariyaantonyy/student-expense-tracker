@@ -11,7 +11,7 @@ const addBtn = document.getElementById("addBtn");
 
 function displayExpense(expense) {
     expenseList.innerHTML += `
-    <div class="expense-item">
+   <div class="expense-item" data-id="${expense.id}">
 
         <h3>₹${expense.amount}</h3>
 
@@ -47,12 +47,13 @@ addBtn.addEventListener("click", function () {
         expenseList.innerHTML = "";
     }
 
-    const expense = {
-        amount: Number(amount.value),
-        category: category.value,
-        date: date.value,
-        description: description.value
-    };
+ const expense = {
+    id: Date.now(),
+    amount: Number(amount.value),
+    category: category.value,
+    date: date.value,
+    description: description.value
+};
 
     expenses.push(expense);
 
@@ -75,15 +76,27 @@ expenseList.addEventListener("click", function (e) {
 
         const expenseItem = e.target.parentElement;
 
-        const amountText = expenseItem.querySelector("h3").textContent;
+        const id = Number(expenseItem.dataset.id);
 
-        const amountValue = Number(amountText.replace("₹", ""));
+        expenses = expenses.filter(function(expense){
+            return expense.id !== id;
+        });
 
-        total -= amountValue;
+        localStorage.setItem("expenses", JSON.stringify(expenses));
+
+        total = 0;
+
+        expenses.forEach(function(expense){
+            total += expense.amount;
+        });
 
         totalExpense.textContent = "Total Expenses : ₹" + total;
 
         expenseItem.remove();
+
+        if(expenses.length === 0){
+            expenseList.innerHTML = "No expenses yet.";
+        }
     }
 });
 const savedExpenses = JSON.parse(localStorage.getItem("expenses"));
@@ -96,7 +109,7 @@ if (savedExpenses) {
 
     total = 0;
 
-    expenses.forEach(function (expense) {
+    expenses.forEach(function(expense) {
 
         displayExpense(expense);
 
@@ -105,4 +118,9 @@ if (savedExpenses) {
     });
 
     totalExpense.textContent = "Total Expenses : ₹" + total;
+
+} else {
+
+    expenseList.innerHTML = "No expenses yet.";
+
 }
