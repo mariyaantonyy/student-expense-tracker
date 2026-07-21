@@ -1,4 +1,5 @@
 let total = 0;
+let expenses = [];
 
 const expenseList = document.getElementById("expense-list");
 const totalExpense = document.getElementById("totalExpense");
@@ -7,6 +8,24 @@ const category = document.getElementById("category");
 const date = document.getElementById("date");
 const description = document.getElementById("description");
 const addBtn = document.getElementById("addBtn");
+
+function displayExpense(expense) {
+    expenseList.innerHTML += `
+    <div class="expense-item">
+
+        <h3>₹${expense.amount}</h3>
+
+        <p><strong>Category:</strong> ${expense.category}</p>
+
+        <p><strong>Date:</strong> ${expense.date}</p>
+
+        <p><strong>Description:</strong> ${expense.description}</p>
+
+        <button class="deleteBtn">Delete</button>
+
+    </div>
+    `;
+}
 
 addBtn.addEventListener("click", function () {
 
@@ -24,12 +43,32 @@ addBtn.addEventListener("click", function () {
         return;
     }
 
-    total += Number(amount.value);
+    if (expenseList.innerHTML.trim() === "No expenses yet.") {
+        expenseList.innerHTML = "";
+    }
+
+    const expense = {
+        amount: Number(amount.value),
+        category: category.value,
+        date: date.value,
+        description: description.value
+    };
+
+    expenses.push(expense);
+
+    localStorage.setItem("expenses", JSON.stringify(expenses));
+
+    total += expense.amount;
 
     totalExpense.textContent = "Total Expenses : ₹" + total;
-if (expenseList.innerHTML.trim() === "No expenses yet.") {
-    expenseList.innerHTML = "";
-}
+
+ displayExpense(expense);
+    amount.value = "";
+    category.selectedIndex = 0;
+    date.value = "";
+    description.value = "";
+});
+
 expenseList.addEventListener("click", function (e) {
 
     if (e.target.classList.contains("deleteBtn")) {
@@ -47,19 +86,23 @@ expenseList.addEventListener("click", function (e) {
         expenseItem.remove();
     }
 });
-expenseList.innerHTML += `
-<div class="expense-item">
+const savedExpenses = JSON.parse(localStorage.getItem("expenses"));
 
-    <h3>₹${amount.value}</h3>
+if (savedExpenses) {
 
-    <p><strong>Category:</strong> ${category.value}</p>
+    expenses = savedExpenses;
 
-    <p><strong>Date:</strong> ${date.value}</p>
+    expenseList.innerHTML = "";
 
-    <p><strong>Description:</strong> ${description.value}</p>
+    total = 0;
 
-    <button class="deleteBtn">Delete</button>
+    expenses.forEach(function (expense) {
 
-</div>
-`;
-});
+        displayExpense(expense);
+
+        total += expense.amount;
+
+    });
+
+    totalExpense.textContent = "Total Expenses : ₹" + total;
+}
