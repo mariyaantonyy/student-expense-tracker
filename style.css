@@ -108,3 +108,11 @@ h2{
 .editBtn:hover{
     background:#218838;
 }
+#search{
+    width:100%;
+    padding:10px;
+    margin:15px 0;
+    border:1px solid #ccc;
+    border-radius:5px;
+    font-size:16px;
+}

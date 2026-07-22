@@ -1,3 +1,5 @@
+
+const search = document.getElementById("search");
 let expenses = JSON.parse(localStorage.getItem("expenses")) || [];
 let editId = null;
 
@@ -143,5 +145,24 @@ console.log("Edit clicked");
 
         addBtn.textContent = "Update Expense";
     }
+
+});
+search.addEventListener("keyup", function () {
+
+    const value = search.value.toLowerCase();
+
+    const cards = document.querySelectorAll(".expense-item");
+
+    cards.forEach(function(card){
+
+        const text = card.textContent.toLowerCase();
+
+        if(text.includes(value)){
+            card.style.display = "block";
+        }else{
+            card.style.display = "none";
+        }
+
+    });
 
 });
