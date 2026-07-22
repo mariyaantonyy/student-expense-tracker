@@ -1,6 +1,6 @@
-let total = 0;
-let expenses = [];
+let expenses = JSON.parse(localStorage.getItem("expenses")) || [];
 let editId = null;
+
 const expenseList = document.getElementById("expense-list");
 const totalExpense = document.getElementById("totalExpense");
 const amount = document.getElementById("amount");
@@ -9,27 +9,57 @@ const date = document.getElementById("date");
 const description = document.getElementById("description");
 const addBtn = document.getElementById("addBtn");
 
-function displayExpense(expense) {
-    expenseList.innerHTML += `
-   <div class="expense-item" data-id="${expense.id}">
-
-        <h3>₹${expense.amount}</h3>
-
-        <p><strong>Category:</strong> ${expense.category}</p>
-
-        <p><strong>Date:</strong> ${expense.date}</p>
-
-        <p><strong>Description:</strong> ${expense.description}</p>
-
-        <button class="editBtn">Edit</button>
-        <button class="deleteBtn">Delete</button>
-
-    </div>
-    `;
+function saveExpenses() {
+    localStorage.setItem("expenses", JSON.stringify(expenses));
 }
 
-addBtn.addEventListener("click", function () {
+function updateTotal() {
+    let total = 0;
 
+    expenses.forEach(function(expense) {
+        total += expense.amount;
+    });
+
+    totalExpense.textContent = "Total Expenses : ₹" + total;
+}
+
+function displayExpenses() {
+
+    expenseList.innerHTML = "";
+
+    if (expenses.length === 0) {
+        expenseList.innerHTML = "No expenses yet.";
+        updateTotal();
+        return;
+    }
+
+    expenses.forEach(function(expense) {
+
+        expenseList.innerHTML += `
+        <div class="expense-item" data-id="${expense.id}">
+
+            <h3>₹${expense.amount}</h3>
+
+            <p><strong>Category:</strong> ${expense.category}</p>
+
+            <p><strong>Date:</strong> ${expense.date}</p>
+
+            <p><strong>Description:</strong> ${expense.description}</p>
+
+            <button class="editBtn">Edit</button>
+            <button class="deleteBtn">Delete</button>
+
+        </div>
+        `;
+
+    });
+
+    updateTotal();
+}
+
+displayExpenses();
+addBtn.addEventListener("click", function (e) {
+    e.preventDefault();
     if (
         amount.value === "" ||
         date.value === "" ||
@@ -44,84 +74,74 @@ addBtn.addEventListener("click", function () {
         return;
     }
 
-    if (expenseList.innerHTML.trim() === "No expenses yet.") {
-        expenseList.innerHTML = "";
+    if (editId === null) {
+
+        expenses.push({
+            id: Date.now(),
+            amount: Number(amount.value),
+            category: category.value,
+            date: date.value,
+            description: description.value
+        });
+
+    } else {
+
+        const expense = expenses.find(function(item){
+            return item.id === editId;
+        });
+
+        expense.amount = Number(amount.value);
+        expense.category = category.value;
+        expense.date = date.value;
+        expense.description = description.value;
+
+        editId = null;
+        addBtn.textContent = "Add Expense";
     }
 
- const expense = {
-    id: Date.now(),
-    amount: Number(amount.value),
-    category: category.value,
-    date: date.value,
-    description: description.value
-};
+    saveExpenses();
+    displayExpenses();
 
-    expenses.push(expense);
-
-    localStorage.setItem("expenses", JSON.stringify(expenses));
-
-    total += expense.amount;
-
-    totalExpense.textContent = "Total Expenses : ₹" + total;
-
- displayExpense(expense);
     amount.value = "";
     category.selectedIndex = 0;
     date.value = "";
     description.value = "";
 });
 
-expenseList.addEventListener("click", function (e) {
+expenseList.addEventListener("click", function(e){
 
-    if (e.target.classList.contains("deleteBtn")) {
+    const card = e.target.closest(".expense-item");
 
-        const expenseItem = e.target.parentElement;
+    if(!card) return;
 
-        const id = Number(expenseItem.dataset.id);
+    const id = Number(card.dataset.id);
 
-        expenses = expenses.filter(function(expense){
-            return expense.id !== id;
+    if(e.target.classList.contains("deleteBtn")){
+
+        expenses = expenses.filter(function(item){
+            return item.id !== id;
         });
 
-        localStorage.setItem("expenses", JSON.stringify(expenses));
-
-        total = 0;
-
-        expenses.forEach(function(expense){
-            total += expense.amount;
-        });
-
-        totalExpense.textContent = "Total Expenses : ₹" + total;
-
-        expenseItem.remove();
-
-        if(expenses.length === 0){
-            expenseList.innerHTML = "No expenses yet.";
-        }
+        saveExpenses();
+        displayExpenses();
     }
+
+    if(e.target.classList.contains("editBtn")){
+        e.preventDefault();
+console.log("Edit clicked");
+
+        const expense = expenses.find(function(item){
+            return item.id === id;
+        });
+
+        amount.value = expense.amount;
+        category.value = expense.category;
+        date.value = expense.date;
+        description.value = expense.description;
+
+        editId = id;
+
+        addBtn.textContent = "Update Expense";
+    }
+
 });
-const savedExpenses = JSON.parse(localStorage.getItem("expenses"));
-
-if (savedExpenses) {
-
-    expenses = savedExpenses;
-
-    expenseList.innerHTML = "";
-
-    total = 0;
-
-    expenses.forEach(function(expense) {
-
-        displayExpense(expense);
-
-        total += expense.amount;
-
-    });
-
-    totalExpense.textContent = "Total Expenses : ₹" + total;
-
-} else {
-
-    expenseList.innerHTML = "No expenses yet.";
-
-}
