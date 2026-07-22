@@ -1,6 +1,6 @@
 let total = 0;
 let expenses = [];
-
+let editId = null;
 const expenseList = document.getElementById("expense-list");
 const totalExpense = document.getElementById("totalExpense");
 const amount = document.getElementById("amount");
@@ -21,6 +21,7 @@ function displayExpense(expense) {
 
         <p><strong>Description:</strong> ${expense.description}</p>
 
+        <button class="editBtn">Edit</button>
         <button class="deleteBtn">Delete</button>
 
     </div>

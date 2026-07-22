@@ -95,3 +95,16 @@ h2{
 .deleteBtn:hover{
     background:darkred;
 }
+.editBtn{
+    background:#28a745;
+    color:white;
+    border:none;
+    padding:8px 15px;
+    border-radius:5px;
+    cursor:pointer;
+    margin-right:10px;
+}
+
+.editBtn:hover{
+    background:#218838;
+}
