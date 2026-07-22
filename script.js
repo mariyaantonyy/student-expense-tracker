@@ -1,4 +1,5 @@
-
+const transactionCount = document.getElementById("transactionCount");
+const highestExpense = document.getElementById("highestExpense");
 const search = document.getElementById("search");
 let expenses = JSON.parse(localStorage.getItem("expenses")) || [];
 let editId = null;
@@ -16,15 +17,25 @@ function saveExpenses() {
 }
 
 function updateTotal() {
-    let total = 0;
 
-    expenses.forEach(function(expense) {
+    let total = 0;
+    let highest = 0;
+
+    expenses.forEach(function(expense){
+
         total += expense.amount;
+
+        if(expense.amount > highest){
+            highest = expense.amount;
+        }
+
     });
 
-    totalExpense.textContent = "Total Expenses : ₹" + total;
-}
+    totalExpense.textContent = "₹" + total;
+    transactionCount.textContent = expenses.length;
+    highestExpense.textContent = "₹" + highest;
 
+}
 function displayExpenses() {
 
     expenseList.innerHTML = "";
