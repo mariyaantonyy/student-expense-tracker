@@ -221,3 +221,25 @@ filterCategory.addEventListener("change", function () {
     });
 
 });
+const sortExpense = document.getElementById("sortExpense");
+sortExpense.addEventListener("change", function () {
+
+    if (sortExpense.value === "low") {
+        expenses.sort((a, b) => a.amount - b.amount);
+    }
+
+    else if (sortExpense.value === "high") {
+        expenses.sort((a, b) => b.amount - a.amount);
+    }
+
+    else if (sortExpense.value === "new") {
+        expenses.sort((a, b) => new Date(b.date) - new Date(a.date));
+    }
+
+    else if (sortExpense.value === "old") {
+        expenses.sort((a, b) => new Date(a.date) - new Date(b.date));
+    }
+
+    displayExpenses();
+
+});
