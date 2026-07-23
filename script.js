@@ -200,3 +200,24 @@ themeBtn.addEventListener("click", function () {
     }
 
 });
+const filterCategory = document.getElementById("filterCategory");
+filterCategory.addEventListener("change", function () {
+
+    const selected = filterCategory.value;
+
+    const cards = document.querySelectorAll(".expense-item");
+
+    cards.forEach(function (card) {
+
+        const categoryText = card.querySelector("p").textContent;
+        const category = categoryText.replace("Category:", "").trim();
+
+        if (selected === "All" || category === selected) {
+            card.style.display = "block";
+        } else {
+            card.style.display = "none";
+        }
+
+    });
+
+});
