@@ -1,4 +1,5 @@
-
+const ctx = document.getElementById("expenseChart");
+let chart;
 const transactionCount = document.getElementById("transactionCount");
 const highestExpense = document.getElementById("highestExpense");
 const search = document.getElementById("search");
@@ -69,6 +70,7 @@ function displayExpenses() {
     });
 
     updateTotal();
+    updateChart();
 }
 
 displayExpenses();
@@ -243,3 +245,36 @@ sortExpense.addEventListener("change", function () {
     displayExpenses();
 
 });
+function updateChart(){
+
+    if(!ctx || typeof Chart === "undefined"){
+        return;
+    }
+
+    const totals = {
+        Food:0,
+        Travel:0,
+        Shopping:0,
+        Books:0,
+        Others:0
+    };
+
+    expenses.forEach(function(expense){
+        totals[expense.category] += expense.amount;
+    });
+
+    if(chart){
+        chart.destroy();
+    }
+
+    chart = new Chart(ctx,{
+        type:"pie",
+        data:{
+            labels:Object.keys(totals),
+            datasets:[{
+                data:Object.values(totals)
+            }]
+        }
+    });
+
+}
