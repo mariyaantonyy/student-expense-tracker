@@ -141,3 +141,40 @@ h2{
 .card h2{
     color:#0077ff;
 }
+#themeBtn{
+    padding:10px 20px;
+    border:none;
+    background:#222;
+    color:white;
+    border-radius:5px;
+    cursor:pointer;
+    margin-bottom:20px;
+}
+
+#themeBtn:hover{
+    background:#444;
+}
+body.dark{
+    background:#1b1b1b;
+    color:white;
+}
+
+body.dark .container{
+    background:#2b2b2b;
+}
+
+body.dark input,
+body.dark select{
+    background:#444;
+    color:white;
+    border:1px solid #666;
+}
+
+body.dark .card{
+    background:#333;
+    color:white;
+}
+
+body.dark .expense-item{
+    background:#3d3d3d;
+}
