@@ -19,6 +19,10 @@
     
 
     <form>
+        <label for="budget">Monthly Budget</label>
+<input type="number" id="budget" placeholder="Enter monthly budget">
+
+<button type="button" id="saveBudget">Save Budget</button>
 
         <label for="amount">Amount</label>
         <input type="number" id="amount" placeholder="Enter amount">
@@ -58,28 +62,37 @@
         <h3>Highest Expense</h3>
         <h2 id="highestExpense">₹0</h2>
     </div>
+    <h3 id="budgetDisplay">Budget: ₹0</h3>
+<h3 id="remainingBudget">Remaining: ₹0</h3>
+
 
 </div>
-<input type="text" id="search" placeholder="Search by category or description">
-<label for="filterCategory">Filter by Category</label>
+<div class="progress">
+    <div id="progressBar"></div>
+</div>
+<div class="controls">
 
-<select id="filterCategory">
-    <option value="All">All</option>
-    <option value="Food">Food</option>
-    <option value="Travel">Travel</option>
-    <option value="Shopping">Shopping</option>
-    <option value="Books">Books</option>
-    <option value="Others">Others</option>
-</select>
-<label for="sortExpense">Sort By</label>
+    <input type="text" id="search"
+    placeholder="🔍 Search expenses">
 
-<select id="sortExpense">
-    <option value="default">Default</option>
-    <option value="low">Amount: Low to High</option>
-    <option value="high">Amount: High to Low</option>
-    <option value="new">Newest Date</option>
-    <option value="old">Oldest Date</option>
-</select>
+    <select id="filterCategory">
+        <option value="All">All Categories</option>
+        <option value="Food">Food</option>
+        <option value="Travel">Travel</option>
+        <option value="Shopping">Shopping</option>
+        <option value="Books">Books</option>
+        <option value="Others">Others</option>
+    </select>
+
+    <select id="sortExpense">
+        <option value="default">Sort By</option>
+        <option value="low">Amount ↑</option>
+        <option value="high">Amount ↓</option>
+        <option value="new">Newest</option>
+        <option value="old">Oldest</option>
+    </select>
+
+</div>
 <h2>Expense Analytics</h2>
 
 <canvas id="expenseChart"></canvas>

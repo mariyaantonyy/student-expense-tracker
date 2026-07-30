@@ -1,3 +1,11 @@
+const budget = document.getElementById("budget");
+const saveBudget = document.getElementById("saveBudget");
+const budgetDisplay = document.getElementById("budgetDisplay");
+const remainingBudget = document.getElementById("remainingBudget");
+const progressBar = document.getElementById("progressBar");
+
+let monthlyBudget =
+Number(localStorage.getItem("budget")) || 0;
 const ctx = document.getElementById("expenseChart");
 let chart;
 const transactionCount = document.getElementById("transactionCount");
@@ -68,7 +76,7 @@ function displayExpenses() {
         `;
 
     });
-
+updateBudget();
     updateTotal();
     updateChart();
 }
@@ -276,5 +284,50 @@ function updateChart(){
             }]
         }
     });
+
+}
+saveBudget.addEventListener("click", function(){
+
+    monthlyBudget = Number(budget.value);
+
+    localStorage.setItem("budget", monthlyBudget);
+
+    updateBudget();
+
+});
+function updateBudget(){
+
+    budgetDisplay.textContent =
+    "Budget : ₹" + monthlyBudget;
+
+    let total = 0;
+
+    expenses.forEach(function(expense){
+        total += expense.amount;
+    });
+
+    const remaining =
+    monthlyBudget - total;
+
+    remainingBudget.textContent =
+    "Remaining : ₹" + remaining;
+
+    const percentage =
+    monthlyBudget > 0
+    ? (total / monthlyBudget) * 100
+    : 0;
+
+    progressBar.style.width =
+    Math.min(percentage,100) + "%";
+
+    if(percentage < 70){
+        progressBar.style.background="green";
+    }
+    else if(percentage < 90){
+        progressBar.style.background="orange";
+    }
+    else{
+        progressBar.style.background="red";
+    }
 
 }
